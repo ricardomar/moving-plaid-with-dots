@@ -16,6 +16,6 @@
 - Video (bistable plaids: inward, downward):
 
 
-[![alt text](https://img.youtube.com/vi/XHGLP32I3TM/0.jpg)](https://youtu.be/XHGLP32I3TM)
+[![alt text](https://img.youtube.com/vi/FwMRyutb4Hs/0.jpg)](https://youtu.be/FwMRyutb4Hs)
 
-[![alt text](https://img.youtube.com/vi/uQ6bt3ljAtM/0.jpg)](https://youtu.be/uQ6bt3ljAtM)
+
