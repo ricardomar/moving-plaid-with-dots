@@ -1680,7 +1680,11 @@ try
     
     % Show mouse cursor
     ShowCursor;
+    
 
+            
+    
+    
 catch me;
 
     % Close PTB Screen and connections
