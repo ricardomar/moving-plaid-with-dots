@@ -1,3 +1,13 @@
+%
+%
+% Ricardo Martins
+% ICNAS-UC
+%
+%
+
+
+
+
 % Close (eventually) open connections and PTB screens
 IOPort('CloseAll');
 Screen('CloseAll'); % equivale a 'sca'
@@ -202,9 +212,6 @@ try
 
 
 
-    %---------------------------------------------------------------------
-    % Create matrix to save key presses and frame-times
-    %---------------------------------------------------------------------
     matpress={};
     numbpress = size(matpress,1);
 
@@ -216,14 +223,8 @@ try
 
 
 
-    %-------------------------------------------------%
-    % Position of textures, fixation cross and frames %
-    %-------------------------------------------------%
 
 
-
-    %
-    %
     % Plaid + Points Rendering
     myPlaidIntercept=0; % 0: funde -- 1: separa
 
@@ -256,9 +257,7 @@ try
     dots_xy_45_perm=randperm(n_dots_plaid);
 
 
-    %-------------------------------------------------%
-    % READY OR NOT? Manual trigger %
-    %-------------------------------------------------%    
+
     
     % Start recording for frame times
     %frame = 1;
