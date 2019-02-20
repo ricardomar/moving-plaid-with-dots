@@ -4,11 +4,10 @@
 % ICNAS-UC
 %
 %
-% The code is not a final version. It was an initial draft version for
-% demonstration purposes.
+% Proof-of-concept: the code is not a final version. 
+% It was an initial draft version for demonstration purposes.
+% 
 %
-%
-
 
 
 
@@ -1668,8 +1667,8 @@ try
             Priority(0);
             warndlg('The task was terminated with ''Esc'' before the end!','Warning','modal')          
             return; % abort program                            
-
         end 
+
     end
 
     
