@@ -15,14 +15,6 @@ close Figure 1
 
 
 
-%% partID
-%partID = inputdlg('Participant ID:','Input',1);
-%partID=char(partID{1,1});
-partID='RM';
-
-
-%% runID
-runID = menu('Run?', 'UNAMB:Run 01', 'UNAMB:Run 02','UNAMB:Run 03','UNAMB:Run 04','UNAMB:Run 05','LOCALIZER:Run 06');
 
 
 %%
@@ -60,71 +52,7 @@ pkey = KbName('p');
 spacekey = KbName('space');
 
 
-%%
-%-------------------------------------------------------------%
-%                                                             %
-% Do you want to use (1) the EyeLink eyetracking or not (0) ? %
-%                                                             %
-%-------------------------------------------------------------%
-eyetracker = menu('Do you want to use the EyeLink eyetracking?', 'Yes', 'No');
-if eyetracker==2
-    eyetracker = 0;
-end
-% What about dummymode?
-if eyetracker==1
-    % Do you want to use the Eyelink eyetracking in dummymode (1) or not (2) ?
-    dummymode = menu('Do you want to use the Eyelink eyetracking in dummymode?', 'Yes', 'No');
-    if dummymode==2
-        dummymode = 0;
-    end
-    
-end
-%------------%
-%            %
-% Input mode %
-%            %
-%------------%
-% 1 - keyboard | 2 - lumina response box LU400 (A) | 3 or 0 (cancel) - automatically random
-keymode = menu('Which response mode do you want to use?', 'Keyboard', 'MR response box', 'Automatic (debug)');
-if keymode==0
-    keymode = 3;
-end
 
-switch keymode
-    
-    case 0 % random (debug)
-        keyAUTO = [49,50];
-
-        
-    case 1 % keyboard answer
-        % downkeycode = KbName('1');
-        downkeycode = 97;
-        % inkeycode = KbName('2');
-        inkeycode = 98;
-         
-    case 2 % lumina response box LU400 (A)
-        response_box_handle = IOPort('OpenSerialPort','COM3');
-        IOPort('Flush',response_box_handle);
-        
-        downkeycode = 49;
-        inkeycode = 50;
-end
- 
-
-% Turn on (1) or off (0) synchrony with scanner console
-syncbox = menu('Do you want to turn on synchrony with scanner?', 'Yes', 'No');
-if syncbox==2
-    syncbox = 0;
-end
-
-%-------%
-% PORTS %
-%-------%
-% Syncbox in MRI
-if syncbox
-    syncbox_handle = IOPort('OpenSerialPort', 'COM2', 'BaudRate=57600 DataBits=8 Parity=None StopBits=1 FlowControl=None');
-    IOPort('Flush',syncbox_handle);
-end
 
 %-------------------%
 % Stimuli variables %
@@ -160,12 +88,7 @@ Loc_Primitive=[ComponentRawAdaptID,BaselineRawID,PatternRawAdaptID,BaselineRawID
 
 %% Protocols
 myStimulusProtocolList(1,:) = [BaselineRawID, C_P, BaselineRawID, na_C, BaselineRawID, C_C, BaselineRawID, P_P, BaselineRawID, P_C, BaselineRawID, na_P, BaselineRawID, P_P, BaselineRawID, na_C, BaselineRawID, P_C, BaselineRawID, C_P, BaselineRawID, na_P, BaselineRawID, C_C, BaselineRawID];
-myStimulusProtocolList(2,:) = [BaselineRawID, na_P, BaselineRawID, C_P, BaselineRawID, P_C, BaselineRawID, P_P, BaselineRawID, na_C, BaselineRawID, C_C, BaselineRawID, C_P, BaselineRawID, C_C, BaselineRawID, na_P, BaselineRawID, P_P, BaselineRawID, na_C, BaselineRawID, P_C, BaselineRawID];
-myStimulusProtocolList(3,:) = [BaselineRawID, P_P, BaselineRawID, na_C, BaselineRawID, na_P, BaselineRawID, P_C, BaselineRawID, na_P, BaselineRawID, P_P, BaselineRawID, na_C, BaselineRawID, C_P, BaselineRawID, C_C, BaselineRawID, P_C, BaselineRawID, C_C, BaselineRawID, C_P, BaselineRawID];
-myStimulusProtocolList(4,:) = [BaselineRawID, na_C, BaselineRawID, P_C, BaselineRawID, C_C, BaselineRawID, C_P, BaselineRawID, P_P, BaselineRawID, na_C, BaselineRawID, na_P, BaselineRawID, C_C, BaselineRawID, C_P, BaselineRawID, na_P, BaselineRawID, P_C, BaselineRawID, P_P, BaselineRawID];
-myStimulusProtocolList(5,:) = [BaselineRawID, P_C, BaselineRawID, na_P, BaselineRawID, C_C, BaselineRawID, P_P, BaselineRawID, C_P, BaselineRawID, na_C, BaselineRawID, P_C, BaselineRawID, C_C, BaselineRawID, na_C, BaselineRawID, P_P, BaselineRawID, C_P, BaselineRawID, na_P, BaselineRawID];
 
-myStimulusProtocolListLoc = [BaselineRawID,Loc_Primitive,Loc_Primitive,Loc_Primitive,Loc_Primitive,Loc_Primitive];
 
 
 % Determine screen resolution
@@ -195,13 +118,10 @@ myProtocol='SAMPLE';
 myWaitResponse=0;
 myStarting=struct;
 myCycleCounter=1;    
-if runID>=1 && runID<=5
-    myStimulusProtocol=myStimulusProtocolList(runID,:);
-    protocol_cycles=size(myStimulusProtocol,2);
-elseif runID==6
-    myStimulusProtocol=myStimulusProtocolListLoc;
-    protocol_cycles=size(myStimulusProtocol,2);
-end
+
+myStimulusProtocol=myStimulusProtocolList(1,:);
+protocol_cycles=size(myStimulusProtocol,2);
+
 myAnswer=0;
 myStatic=0;
 myTextureCounter=1;
@@ -273,73 +193,7 @@ try
         load('.\img-out\myImageAllFinal_1920_1080.mat');            
         for j=1:nLoopFrames 
             windowtext(j,1) = Screen('MakeTexture', windowID, myImageAllFinal(:,:,j)); 
-        end
-    elseif myLoadImagesToTexture==0
-        %%  central circle Phantoms: full-screen and partial central square
-        myPhantom01 = zeros(res_y,res_x,'uint8')+255;
-
-        for myI=1:size(myPhantom01,1) 
-            for myJ=1:size(myPhantom01,2)
-                if (myI-ycenter)^2 + (myJ-xcenter)^2 <= (altura/2)^2
-                    myPhantom01(myI,myJ)=0;                      
-                end
-            end
-        end
-        myPhantom02=myPhantom01(ycenter-altura/2:ycenter+altura/2-1,xcenter-altura/2:xcenter+altura/2-1);
-
-        % indices parte exterior à circunferência
-        myIndexesCircle=find(myPhantom01==255);
-        myIndexesCircleTemplate=find(myPhantom02==255);    
-
-
-        %%
-        startLine=1;
-        endLine=res_y;
-        startArrayLine=startLine:distance:endLine;           
-        myTemplate=zeros(altura,altura,nLoopFrames ,'uint8');
-        myTemplate2=zeros(altura,altura,nLoopFrames ,'uint8');                        
-        windowtext=[];
-        for j=1:nLoopFrames               
-            startArrayLine=floor(startArrayLine);
-            myImage02=zeros(res_y,res_x,'uint8')+125;
-            for i=1:size(startArrayLine,2)
-                myImage02(startArrayLine(i):min(startArrayLine(i)+espessura-1,endLine),1:res_x)=0;
-            end
-
-
-            startLine=startArrayLine(1)+veloc;
-            startArrayLine=startLine:distance:endLine;
-            startArrayLine=[startLine:-distance:1,startArrayLine(2:end)];
-
-
-            myImage45=imrotate(myImage02,myAngle,'bicubic','crop');
-            myTemp45(1:altura,1:altura)=myImage45(ycenter-altura/2:ycenter+altura/2-1,xcenter-altura/2:xcenter+altura/2-1);
-            myIndexTemp45=find(myTemp45<60);
-            myTemp45=zeros(altura,altura,'uint8');
-            myTemp45(myIndexTemp45)=255;
-            myTemp45(myIndexesCircleTemplate)=0;
-            myTemplate(1:altura,1:altura,j)=myTemp45;
-
-            myImage_45=imrotate(myImage02,-myAngle,'bicubic','crop');
-            myTemp_45(1:altura,1:altura)=myImage_45(ycenter-altura/2:ycenter+altura/2-1,xcenter-altura/2:xcenter+altura/2-1);
-            myIndexTemp_45=find(myTemp_45<60);
-            myTemp_45=zeros(altura,altura,'uint8');
-            myTemp_45(myIndexTemp_45)=255;
-            myTemp_45(myIndexesCircleTemplate)=0;
-            myTemplate2(1:altura,1:altura,j)=myTemp_45;
-
-            myTempAll=(myImage45+myImage_45)/2;    
-            myLineIndexs=find(myTempAll<90);
-
-            myImageAll=zeros(res_y,res_x,'uint8');
-
-            myImageAll(:,:)=myGrayBackgroundCentralWindow;
-            myImageAll(myLineIndexs)=myGrayLinePlaids;
-            myImageAll(myIndexesCircle)=myGrayBackgroundFullWindow;
-
-            myImageAllFinal(:,:,j)=myImageAll;
-            windowtext(j,1) = Screen('MakeTexture', windowID, myImageAllFinal(:,:,j));                                
-        end              
+        end      
     end  
 
 
@@ -357,108 +211,10 @@ try
 
     frametime = [];
 
-    doublepress = 0; % refers to "double" button
-    button1 = 0; % refers to "inward" button
-    button2 = 0; % refers to "downward" button
-    button3 = 0; % refers to all other buttons
 
-    %-------------------------------%
-    %                               %
-    %     EYETRACKER PROCEDURES     %
-    %                               %
-    %-------------------------------%
-    
-    if eyetracker==1
-        
-        %-------------------------------------------%
-        %  Initiate eyetracking - Defaults EyeLink  %
-        %-------------------------------------------%
-        
-        % Provide Eyelink with details about the graphics environment and perform some initializations
-        disp('Start EyeLink procedures')
-        % Ensure Eyelink is not already open
-        Eyelink('Shutdown');
-        % Initiate Eyelink object
-        el = EyelinkInitDefaults(windowID);
-        
-        disp('EyeLink initialized with default parameters')
-        
-        % Initialization of the connection with the Eyelink Gazetracker
-        % if we are not in dummy mode
-        if ~EyelinkInit(dummymode, 1)
-            fprintf('Eyelink Init aborted.\n');
-            cleanup;  % cleanup function
-            return
-        end
-        
-        % Filename of eye tracker data
-        datastr = datestr(now, 'HHMM');
-        str_save = [partID, 'R',num2str(runID), datastr];
-        edfFile = [str_save, '.edf'];
-        %--------------------------%
-        % Open file to record data %
-        %--------------------------%
-        openOK = Eyelink('Openfile', edfFile);
-        if openOK~=0
-            fprintf('Cannot create EDF file ''%s'' ', edfFile);
-            cleanup;
-            return;
-        end
-        disp('File to record eyetracking data - OK')
-        
-        % Grab the screen resolution from Psychtoolbox and write that to a DISPLAY_COORDS message
-        [width, height] = Screen('WindowSize', screenNumber);
-        
-        Eyelink('message', 'DISPLAY_COORDS %ld %ld %ld %ld', 0, 0, width-1, height-1);
-        
-        % Also send a screen_pixel_coords command to the tracker with the same dimensions to ensure that both Data Viewer and the EyeLink use the same resolution
-        Eyelink('command','screen_pixel_coords = %ld %ld %ld %ld', 0, 0, width-1, height-1);
-        % Data Viewer will not scale the fixation locations when you change the Display Width and Display Height.
-        % Fixations will always be drawn at the pixel location of the fixation event in the .edf file.
-        % Of course, changing the Display Width and Display Height will cause the fixations to appear in a different place in the window due to the changed window size, but the pixel coordinates of the fixation will not change.
-        
-        % Set calibration type.
-        Eyelink('command', 'calibration_type = HV9');
-        
-        % Allow to use the big button on the eyelink gamepad to accept the
-        % calibration/drift correction target
-        Eyelink('command', 'button_function 5 "accept_target_fixation"');
-        
-        % Make sure we're still connected.
-        if Eyelink('IsConnected')~=1 && dummymode == 0
-            fprintf('not connected, clean up\n');
-            Eyelink( 'Shutdown');
-            Screen('CloseAll');
-            IOPort('CloseAll');
-            pnet('closeall');
-            ShowCursor;
-            Priority(0);
-            return
-        end
-        
-        %-------------------------------------------------%
-        %   CALIBRATION, VALIDATION OR DRIFT CORRECTION   %
-        %-------------------------------------------------%
-        % Calibrate the eye tracker
-        % setup the proper calibration foreground and background colors
-        el.backgroundcolour = [128 128 128];
-        el.calibrationtargetcolour = [0 0 0];
-        
-        % Parameters are in frequency, volume, and duration
-        % Set the second value in each line to 0 to turn off the sound
-        el.cal_target_beep = [600 0.5 0.05];
-        el.drift_correction_target_beep = [600 0.5 0.05];
-        el.calibration_failed_beep = [400 0.5 0.25];
-        el.calibration_success_beep = [800 0.5 0.25];
-        el.drift_correction_failed_beep = [400 0.5 0.25];
-        el.drift_correction_success_beep = [800 0.5 0.25];
-        % You must call this function to apply the changes from above
-        EyelinkUpdateDefaults(el);
-        
-        % Do calibration, validation or drift correction
-        success = EyelinkDoTrackerSetup(el);
 
-    end    
+
+
 
     %-------------------------------------------------%
     % Position of textures, fixation cross and frames %
@@ -519,93 +275,11 @@ try
     Screen('Flip',windowID);
     
     KbWait;    
+
     
     
-    
-    % Fill screen with white after calibration
-    Screen('FillRect', windowID, 0, []);
-    % Tamanho das letras em que Ready aparece escrito
-    Screen('TextSize', windowID , textsize);
-    Screen('DrawText', windowID, 'Ready...', res_x/2.5, res_y/2.2, [200 200 200]);
-    
-    % Update screen
-    Screen('Flip',windowID);    
-    
-    
-    
-    %--------------------------%
-    % Wait for scanner trigger %
-    %--------------------------%
-    % To avoid the KbCheck to get the previous key press after "Ready..."
-    %WaitSecs(1)
-    trigger = 0;
-    
-    while trigger==0
-        
-        [keyIsDown, secs, keyCode] = KbCheck;
-        
-        % The user asked to exit the program
-        if keyIsDown==1 && keyCode(escapekeycode)
-            
-            escapekeypress = 1;
-            
-            % Close PTB screen and connections
-            Screen('CloseAll');
-            ShowCursor;
-            Priority(0);
-            
-            % Launch window with warning of early end of program
-            warndlg('The task was terminated with ''Esc'' before the end!','Warning','modal')
-            
-            return % abort program
-            
-            % The trigger has arrived
-        elseif keyIsDown==1 && syncbox==0 && keyCode(keytriggercode)
-            
-            % Exit while loop and continue program
-            break
-            
-            % Syncbox is 'on' or 'off'?
-        elseif syncbox==1
-            [gotTrigger, logdata.triggerTimeStamp] = waitForTrigger(syncbox_handle,1,300);
-            
-            if gotTrigger
-                disp('Trigger OK! Starting stimulation...');
-                
-                % Clean syncbox buffer
-                IOPort('Flush', syncbox_handle);
-                IOPort('Purge', syncbox_handle);
-                IOPort('Close', syncbox_handle);
-                
-                % Exit while loop and continue program
-                break
-                
-            else
-                disp('Absent trigger. Aborting...');
-                throw
-            end
-        end
-        
-    end
-    
-    
-    %--------------------------%
-    % START eyetracker %
-    %--------------------------%
-    % Start recording eyetracking data
-    if eyetracker==1
-        
-        % Number of trial
-        trial_numb = 1;
-        
-        Eyelink('Message', 'TRIALID %d', trial_numb); % number of the trial. Sending a 'TRIALID' message to mark the start of a trial in Data Viewer.
-        
-        % This supplies the title at the bottom of the eyetracker display
-        Eyelink('command', 'record_status_message "TRIAL %s"', str_save(1:4));
-        
-        Eyelink('StartRecording');
-        Eyelink('Message', 'SYNCTIME');  % Mark zero-plot time in data file
-    end
+
+   
     
     
     
@@ -1978,33 +1652,20 @@ try
                 myUpdateMatpress=0;
             end   
 
-
-
         end
+                
+        [keyIsDown, secs, keyCode] = KbCheck;
 
+        if keyIsDown == 1 && keyCode(escapekeycode)    
 
+            escapekeypress = 1;
+            Screen('CloseAll');
+            ShowCursor;
+            Priority(0);
+            warndlg('The task was terminated with ''Esc'' before the end!','Warning','modal')          
+            return; % abort program                            
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-        % end while cycle
+        end 
     end
 
     
@@ -2021,48 +1682,13 @@ try
     
     
 catch me;
-    
-    % Save variables anyway
-    experiment.matpress = matpress;
-    experiment.frametime = frametime;
-%     experiment.time_down = time_down;
-%     experiment.time_in = time_in;
-%     experiment.time_ratio = time_ratio;
-    
-    % Time and date of experiment (run)
-    fullDateOfExperiment = datestr(now,'HHMM_ddmmmmyyyy');
-    experiment.full_date =  fullDateOfExperiment;
-    
-    expname = [partID, '_A_'];
-    
-    % Add information of program 'ERROR' in the filename
-    experimentName = [expname, 'ERRORoutput_', experiment.full_date];
-    
-    % Save experiment
-    save(experimentName,'experiment');
-    
+
     % Close PTB Screen and connections
     Screen('CloseAll');
-    IOPort('CloseAll');
     
     ShowCursor;
     Priority(0);
-    rethrow(me);
-    
+    rethrow(me);    
 end
-
-%% Auxiliar functions
-
-% % Cleanup routine:
-% function cleanup
-%     % Shutdown Eyelink:
-%     Eyelink('Shutdown');
-%     % Close window:
-%     sca;
-%     Priority(0);
-% 
-%     commandwindow;
-% end
-
 
 
