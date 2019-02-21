@@ -13,7 +13,7 @@
 
 
 ## Demonstration:
-- Video (bistable plaids: inward, downward):
+- [Video](https://youtu.be/FwMRyutb4Hs) (bistable plaids: inward, downward):
 
 
 [![alt text](https://img.youtube.com/vi/FwMRyutb4Hs/0.jpg)](https://youtu.be/FwMRyutb4Hs)
