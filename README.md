@@ -1,4 +1,5 @@
-# Moving plaids with dots - bistable plaids - Psychophysics Toolbox
+# Moving plaids with dots - bistable plaids - Matlab Psychophysics Toolbox
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4570682.svg)](https://doi.org/10.5281/zenodo.4570682)
 
 
 ## Objectives:
