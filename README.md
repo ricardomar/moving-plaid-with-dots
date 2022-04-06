@@ -3,7 +3,10 @@
 
 
 ## Update:
-For a final and clean version check the repository (https://github.com/CIBIT-UC/public_vphysteresis). Code used for the stimulus and data analysis of the study "Identification of competing neural mechanisms underlying positive and negative perceptual hysteresis in the human visual system". DOI: [10.1016/j.neuroimage.2020.117153](https://doi.org/10.1016/j.neuroimage.2020.117153)
+For a final and clean version check the repository (https://github.com/CIBIT-UC/public_vphysteresis). 
+
+Code used for the stimulus and data analysis of the study "Identification of competing neural mechanisms underlying positive and negative perceptual hysteresis in the human visual system". DOI: [10.1016/j.neuroimage.2020.117153](https://doi.org/10.1016/j.neuroimage.2020.117153)
+
 
 ## Objectives:
 
