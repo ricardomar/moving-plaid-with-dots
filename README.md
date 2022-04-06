@@ -2,6 +2,9 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4570682.svg)](https://doi.org/10.5281/zenodo.4570682)
 
 
+## Update:
+For a final and clean version check the repository (https://github.com/CIBIT-UC/public_vphysteresis). Code used for the stimulus and data analysis of the study "Identification of competing neural mechanisms underlying positive and negative perceptual hysteresis in the human visual system". DOI: [10.1016/j.neuroimage.2020.117153](https://doi.org/10.1016/j.neuroimage.2020.117153)
+
 ## Objectives:
 
 - Demonstration of the implementation of bistable moving plaids with dots using Psychophysics MATLAB toolbox.
